@@ -9,9 +9,9 @@ Table of Contents
 
   - [Scope](#scope)
 
-  - [1 Requirements](#1-requirements)
+  - [Requirements](#requirements)
   
-  - [2 Approach](#2-approach)
+  - [Approach](#approach)
 
 
    
@@ -29,14 +29,14 @@ The T2 topology for a VOQ Chassis is defined in [topologies supported] (https://
 
 The scope of this document is to define the how routes from these VM's are announced to a T2 chassis, simulating a typical data center network architecture. This route distribution will be added to test_announce_routes.py in the sonic-mgmt OC tests.
 
-# 1 Requirements
+# Requirements
 The following are requirements with regards to route distribution and scaling for testing a T2 chassis in the OC sonic-mgmt tests:
 - 18K total routes in the chassis routing table.
 - Each downlink (towards T1 DUTs) route has 16 ECMP paths distributed equally across 2 linecards 
    - This allows for ECMP across the fabric.
 - Default route is towards the T3 VM's.
 
-# 2 Approach
+# Approach
 In sonic-mgmt OC tests, the number of routes announced into a Device Under Test (DUT) is controlled using the following knobs:
 - number of routes per TOR
 - number of TOR's per POD
