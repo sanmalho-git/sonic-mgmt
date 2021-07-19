@@ -16,6 +16,7 @@ class SonicAsic(object):
     """
 
     _DEFAULT_ASIC_SERVICES =  ["bgp", "database", "lldp", "swss", "syncd", "teamd"]
+    _DEFAULT_SUPERVISOR_ASIC_SERVICES = ["database", "lldp", "swss", "syncd"]
     _MULTI_ASIC_SERVICE_NAME = "{}@{}"   # service name, asic_id
     _MULTI_ASIC_DOCKER_NAME = "{}{}"     # docker name,  asic_id
 
@@ -53,9 +54,11 @@ class SonicAsic(object):
             [list]: list of the services running the namespace/asic
         """
         a_service = []
-        for service in self._DEFAULT_ASIC_SERVICES:
-           a_service.append("{}{}".format(
-               service, self.asic_index if self.sonichost.is_multi_asic else ""))
+        asic_services = self._DEFAULT_ASIC_SERVICES
+        if self.sonichost.is_supervisor_node() and self.sonichost.get_facts()['asic_type'] != 'vs':
+            asic_services = self._DEFAULT_SUPERVISOR_ASIC_SERVICES
+        for service in asic_services:
+            a_service.append("{}{}".format(service, self.asic_index if self.sonichost.is_multi_asic else ""))
         return a_service
 
     def is_it_frontend(self):
